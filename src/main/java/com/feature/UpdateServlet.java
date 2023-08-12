@@ -35,19 +35,8 @@ public class UpdateServlet extends HttpServlet {
 		PreparedStatement prp = null;
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("uname");	
-		//System.out.println("uname == "+username);
+		//System.out.println("uname == "+username);	
 		
-		String password = null;
-		String name = null;
-		Long contact = null;
-		
-		//Catpure the data entered by the user
-		password = request.getParameter("password");
-		name = request.getParameter("name");
-		String temp_contact = request.getParameter("contact");
-		
-		if(contact!=null)
-		contact = Long.parseLong(temp_contact);
 		
 						
 		//prepare the queries
@@ -63,46 +52,76 @@ public class UpdateServlet extends HttpServlet {
 		sql.setPort(3306);
 		
 		//get the connection
-		try {
-			conn = sql.getConnection();
+		String password = request.getParameter("password");
+		if(password!="") {
+				try {
+						conn = sql.getConnection();
 			
-			//inject the query into statement type object
+						//inject the query into statement type object	
 			
+						prp = conn.prepareStatement(qry1);
+						prp.setString(1,password );
+						prp.setString(2,username );
+						prp.executeUpdate();	
+						
+						conn.close();
+					}
+				catch (Exception e) {
+						// TODO Auto-generated catch block			
+						e.printStackTrace();
+					}
 			
-			if(password!=null) {
-				prp = conn.prepareStatement(qry1);
-				prp.setString(1,password );
-				prp.setString(2,username );
-				prp.executeUpdate();
-			}
-			
-			else if(name!=null) {
-				prp = conn.prepareStatement(qry2);
-				prp.setString(1,name );
-				prp.setString(2,username );
-				prp.executeUpdate();
-			}
-			
-			else if(contact!=null) {
-				prp = conn.prepareStatement(qry3);
-				prp.setLong(1,contact );
-				prp.setString(2,username );
-				prp.executeUpdate();
-			}
-			
-			
-			
-			response.sendRedirect("home.jsp");
-			
+		}
 				
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
+		
+	
+		String name = request.getParameter("name");
+		if(name!="") {
+				try {
+						conn = sql.getConnection();
+						prp = conn.prepareStatement(qry2);
+						prp.setString(1,name );
+						prp.setString(2,username );
+						prp.executeUpdate();
+						
+						conn.close();
+					}
+		
+				catch (Exception e) {
+						// TODO Auto-generated catch block			
+						e.printStackTrace();
+					}
+						
 		}
 		
 		
+		Long contact = null;
+		String temp_contact = request.getParameter("contact");	
+		//System.out.println(temp_contact);
+		if(temp_contact!="")
+		contact = Long.parseLong(temp_contact);
+		if(contact!=null) {
+				
+				try {
+						conn = sql.getConnection();
+						prp = conn.prepareStatement(qry3);
+						prp.setLong(1,contact);
+						prp.setString(2,username);
+						prp.executeUpdate();
+						
+						conn.close();
+					}
+		
+				catch (Exception e) {
+						// TODO Auto-generated catch block			
+						e.printStackTrace();
+					}
+		
 		}
-
+		
+		response.sendRedirect("home.jsp");	
+    }
 }
+
+
+

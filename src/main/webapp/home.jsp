@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"> 
 <%response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//Http 1.1
 response.setHeader("Pragma","no-cache");//Http 1.0
 response.setDateHeader ("Expires", 0);//Proxies
@@ -45,11 +46,16 @@ response.sendRedirect("Signin.jsp");
          .button3 {
             width: 100px;
             height: 40px;
-            background-color: red;         
+            background-color: white;         
             position: absolute;
             left: 1420px;
 
         }
+         .red-color {
+            width: 70px;
+            height: 70px;
+            color:red;
+    	}
     </style>
     <script>
         function Datalist() {
@@ -73,9 +79,7 @@ response.sendRedirect("Signin.jsp");
 
 <header>
 
-<button type="submit" class ="button3" onclick ="Logout()">
-        <img src="D:\Programs\script\Java\Signup-Signin Feature\logout.jfif" alt="Logout" border="0" />
-</button>
+<button type="submit" class ="button3" onclick ="Logout()" ><span class="bi bi-power red-color">  Logout</span></button>
         <h1>Welcome to home page</h1>
         
 </header>

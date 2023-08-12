@@ -27,12 +27,16 @@ public class listServlet extends HttpServlet {
     }
 
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		// TODO Auto-generated method stub
+		
 		//Cache control
 		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//Http 1.1
 		response.setHeader("Pragma","no-cache");//Http 1.0
 		response.setDateHeader ("Expires", 0);//Proxies
+		HttpSession session = request.getSession();
+		if(session.getAttribute("uname")==null)
+			response.sendRedirect("Signin.jsp");
 		
 		
 		response.getWriter();		
@@ -40,7 +44,6 @@ public class listServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//open the database connection
-		HttpSession session = request.getSession();
 		Connection conn;
 		MysqlDataSource sql = new MysqlDataSource();
 		PreparedStatement prp;
@@ -78,7 +81,7 @@ public class listServlet extends HttpServlet {
 				
 				out.print("<html>");
 				out.print("<body>"
-						+ "<div align ='center' margin =10px vertical = 400px>"
+						+ "<div align ='center' margin =10px style='margin-top:200px;'>"
 						+ "<table align ='center' border =1px  style='font-size:40px;'> "
 						+ "<tr>"
 						+ "<td>Username</td>"
@@ -101,6 +104,8 @@ public class listServlet extends HttpServlet {
 				out.print("</td>"
 						+ "</table>"
 						+ "</div>"
+						+ "<br>"
+						+ "<a href='http://localhost:8080/Signup-Signin_Feature/home.jsp'> <button style=' width: 200px;height: 70px;color: rgb(239, 94, 94);font-size: larger;position: absolute;left: 650px;'>Home</button></a>"
 						+ "</body>"
 						+ "</html>");
 				
