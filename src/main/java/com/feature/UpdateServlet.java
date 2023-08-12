@@ -35,16 +35,20 @@ public class UpdateServlet extends HttpServlet {
 		PreparedStatement prp = null;
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("uname");	
-		
+		//System.out.println("uname == "+username);
 		
 		String password = null;
 		String name = null;
-		String contact = null;
+		Long contact = null;
 		
 		//Catpure the data entered by the user
 		password = request.getParameter("password");
 		name = request.getParameter("name");
-		contact = request.getParameter("contact");
+		String temp_contact = request.getParameter("contact");
+		
+		if(contact!=null)
+		contact = Long.parseLong(temp_contact);
+		
 						
 		//prepare the queries
 		String qry1 ="update clientdata set Password=? where Username =?";	
@@ -72,16 +76,16 @@ public class UpdateServlet extends HttpServlet {
 				prp.executeUpdate();
 			}
 			
-			if(name!=null) {
+			else if(name!=null) {
 				prp = conn.prepareStatement(qry2);
 				prp.setString(1,name );
 				prp.setString(2,username );
 				prp.executeUpdate();
 			}
 			
-			if(name!=null) {
+			else if(contact!=null) {
 				prp = conn.prepareStatement(qry3);
-				prp.setString(1,contact );
+				prp.setLong(1,contact );
 				prp.setString(2,username );
 				prp.executeUpdate();
 			}
