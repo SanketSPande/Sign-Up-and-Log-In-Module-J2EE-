@@ -129,15 +129,15 @@ public class listServlet extends HttpServlet {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-//		finally {
-//		    if (input != null) {
-//		        try {
-//		            input.close();
-//		        } catch (IOException e) {
-//		            e.printStackTrace();
-//		        }
-//		    }
-//		}
+		finally {
+		    if (input != null) {
+		        try {
+		            input.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
 		
 		
 	}

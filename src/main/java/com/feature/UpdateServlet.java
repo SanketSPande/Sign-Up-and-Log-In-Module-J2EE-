@@ -1,9 +1,11 @@
 package com.feature;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +36,9 @@ public class UpdateServlet extends HttpServlet {
 		Connection conn = null;
 		PreparedStatement prp = null;
 		HttpSession session = request.getSession();
-		String username = (String) session.getAttribute("uname");	
+		String username = (String) session.getAttribute("uname");
+		Properties prop = new Properties();
+		InputStream input = null;
 		//System.out.println("uname == "+username);	
 		
 		
@@ -44,17 +48,24 @@ public class UpdateServlet extends HttpServlet {
 		String qry2 ="update clientdata set Name=? where Username =?";
 		String qry3 ="update clientdata set Contact=? where Username =?";
 		
-		//enter the database credentials
-		sql.setUser("root");
-		sql.setPassword("abcd");
-		sql.setDatabaseName("java_crs_db");
-		sql.setServerName("localhost");
-		sql.setPort(3306);
+		
 		
 		//get the connection
 		String password = request.getParameter("password");
 		if(password!="") {
 				try {
+					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+					
+					// load a properties file
+				    prop.load(input);
+				    
+				  //enter the database credentials
+				    sql.setUser(prop.getProperty("userName"));
+					sql.setPassword(prop.getProperty("userPwd"));
+					sql.setDatabaseName(prop.getProperty("dbName"));
+					sql.setServerName(prop.getProperty("serverName"));
+					sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
+						
 						conn = sql.getConnection();
 			
 						//inject the query into statement type object	
@@ -70,6 +81,15 @@ public class UpdateServlet extends HttpServlet {
 						// TODO Auto-generated catch block			
 						e.printStackTrace();
 					}
+				finally {
+				    if (input != null) {
+				        try {
+				            input.close();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
+				    }
+				}
 			
 		}
 				
@@ -78,6 +98,17 @@ public class UpdateServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		if(name!="") {
 				try {
+					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+					
+					// load a properties file
+				    prop.load(input);
+				    
+				  //enter the database credentials
+				    sql.setUser(prop.getProperty("userName"));
+					sql.setPassword(prop.getProperty("userPwd"));
+					sql.setDatabaseName(prop.getProperty("dbName"));
+					sql.setServerName(prop.getProperty("serverName"));
+					sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
 						conn = sql.getConnection();
 						prp = conn.prepareStatement(qry2);
 						prp.setString(1,name );
@@ -91,6 +122,15 @@ public class UpdateServlet extends HttpServlet {
 						// TODO Auto-generated catch block			
 						e.printStackTrace();
 					}
+				finally {
+				    if (input != null) {
+				        try {
+				            input.close();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
+				    }
+				}
 						
 		}
 		
@@ -103,6 +143,17 @@ public class UpdateServlet extends HttpServlet {
 		if(contact!=null) {
 				
 				try {
+					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+					
+					// load a properties file
+				    prop.load(input);
+				    
+				  //enter the database credentials
+				    sql.setUser(prop.getProperty("userName"));
+					sql.setPassword(prop.getProperty("userPwd"));
+					sql.setDatabaseName(prop.getProperty("dbName"));
+					sql.setServerName(prop.getProperty("serverName"));
+					sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
 						conn = sql.getConnection();
 						prp = conn.prepareStatement(qry3);
 						prp.setLong(1,contact);
@@ -116,6 +167,15 @@ public class UpdateServlet extends HttpServlet {
 						// TODO Auto-generated catch block			
 						e.printStackTrace();
 					}
+				finally {
+				    if (input != null) {
+				        try {
+				            input.close();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
+				    }
+				}
 		
 		}
 		

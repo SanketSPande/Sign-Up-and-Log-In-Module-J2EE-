@@ -86,7 +86,7 @@ public class PasswordValidation extends HttpServlet {
 			}
 			else {
 				System.out.println("Access Denied");
-				response.sendRedirect("WrongCreden.jsp");
+				response.sendRedirect("IncorrectPasss.jsp");
 			}
 			conn.close();					
 		}catch(Exception e) {
