@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,11 @@
             background-color: rgb(183, 183, 241);
         }
     </style>
-    
+    <script>
+		function reload(){
+		document.location.href = "http://localhost:8080/Signup-Signin_Feature/Signup.jsp";
+		}	
+	</script>
     
 </head>
 <body>
@@ -47,7 +52,8 @@
         <label for="contact">Contact*</label><br> <input type="text" class="textbox" name="contact" required><br><br>
        
        <input type="submit" class="button" value="Signup">
-       <input type="button" class="button" value="Reset">  <br><br>      
+           	<input type="button" class="button" value="Reset" onclick="reload()">
+  	   <br><br>      
       
 
     </form>

@@ -1,18 +1,19 @@
 package com.feature;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Random;
-import java.util.UUID;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -30,9 +31,13 @@ public class SignupDataCapture extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//Http 1.1
+		response.setHeader("Pragma","no-cache");//Http 1.0
+		response.setDateHeader ("Expires", 0);//Proxies
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 		
 		out.print("<html>");
 		out.print("<script> function message(){ alert('Registration Successful');} </script>");
@@ -47,6 +52,9 @@ public class SignupDataCapture extends HttpServlet {
 		String name = request.getParameter("name");
 		String contact = request.getParameter("contact");
 		
+		//set the session attribute
+		session.setAttribute("permission","deny");
+		
 		//Make a database connection
 		Connection conn;
 		MysqlDataSource sql=new MysqlDataSource();;
@@ -54,15 +62,24 @@ public class SignupDataCapture extends HttpServlet {
 		String qry1 = "select * from clientdata order by clientid desc limit 1";
 		PreparedStatement prp;
 		ResultSet rs;
+		Properties prop = new Properties();
+		InputStream input = null;
 		
 		//Fetching the id of lastly stored entry
 		try {
-			//get the connection
-			sql.setUser("root");
-			sql.setPassword("abcd");
-			sql.setDatabaseName("java_crs_db");
-			sql.setServerName("localhost");
-			sql.setPort(3306);
+			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+			
+			// load a properties file
+		    prop.load(input);
+		    
+		  //enter the database credentials
+		    sql.setUser(prop.getProperty("userName"));
+			sql.setPassword(prop.getProperty("userPwd"));
+			sql.setDatabaseName(prop.getProperty("dbName"));
+			sql.setServerName(prop.getProperty("serverName"));
+			sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
+			
+			//get the connection						
 			conn = sql.getConnection();
 			
 			//inject qry in statement type object
@@ -82,11 +99,17 @@ public class SignupDataCapture extends HttpServlet {
 		
 		//Store data to database
 		try {
-			//get the connection
-			sql.setUser("root");
-			sql.setPassword("abcd");
-			sql.setDatabaseName("java_crs_db");
-			sql.setServerName("localhost");
+			
+			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+			
+			// load a properties file
+		    prop.load(input);
+		    
+		  //enter the database credentials
+		    sql.setUser(prop.getProperty("userName"));
+			sql.setPassword(prop.getProperty("userPwd"));
+			sql.setDatabaseName(prop.getProperty("dbName"));
+			sql.setServerName(prop.getProperty("serverName"));
 			sql.setPort(3306);
 			conn = sql.getConnection();
 			
@@ -112,12 +135,16 @@ public class SignupDataCapture extends HttpServlet {
 			
 			conn.close();
 			
+			
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 		
+		
+
 		
 		
 		response.sendRedirect("RegSuc.jsp");

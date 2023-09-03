@@ -1,9 +1,11 @@
 package com.feature;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,7 @@ public class Sign_InAuthentication extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
@@ -50,14 +53,23 @@ public class Sign_InAuthentication extends HttpServlet {
 				PreparedStatement prp;
 				ResultSet rs;
 				String pass = null;
+				Properties prop = new Properties();
+				InputStream input = null;
 				
 				try {
+					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+					
+					// load a properties file
+				    prop.load(input);
+				    
+				  //enter the database credentials
+				    sql.setUser(prop.getProperty("userName"));
+					sql.setPassword(prop.getProperty("userPwd"));
+					sql.setDatabaseName(prop.getProperty("dbName"));
+					sql.setServerName(prop.getProperty("serverName"));
+					sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
+					
 					//get the connection
-					sql.setUser("root");
-					sql.setPassword("abcd");
-					sql.setDatabaseName("java_crs_db");
-					sql.setServerName("localhost");
-					sql.setPort(3306);
 					conn = sql.getConnection();
 					
 					//inject qry in statement type object
@@ -86,6 +98,15 @@ public class Sign_InAuthentication extends HttpServlet {
 					conn.close();					
 				}catch(Exception e) {
 					e.printStackTrace();
+				}
+				finally {
+				    if (input != null) {
+				        try {
+				            input.close();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
+				    }
 				}
 	}
 

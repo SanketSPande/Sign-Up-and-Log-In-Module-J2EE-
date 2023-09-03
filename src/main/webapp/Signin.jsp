@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,13 @@
             background-color: rgb(183, 183, 241);
         }
     </style>
+   
+	<script>
+		function reload(){
+			document.location.href = "http://localhost:8080/Signup-Signin_Feature/Signin.jsp";
+		}	
+	</script>
+
 </head>
 <body>
  <header id="head">
@@ -37,9 +45,12 @@
         <input type="password" class="textbox" name="password" required><br><br>
 
         <input type="submit" class="button" value="Login">
-        <input type="submit" class="button" value="Reset">
+        
+    	<input type="button" class="button" value="Reset" onclick="reload()">
+    
 
     </form><br>
+    
 
     <a href="http://localhost:8080/Signup-Signin_Feature/Signup.jsp">New User? Register here</a>
 </body>

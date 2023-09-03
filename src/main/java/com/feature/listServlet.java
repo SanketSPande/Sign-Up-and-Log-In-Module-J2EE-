@@ -1,10 +1,12 @@
 package com.feature;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,16 +49,25 @@ public class listServlet extends HttpServlet {
 		Connection conn;
 		MysqlDataSource sql = new MysqlDataSource();
 		PreparedStatement prp;
-		String qry = "select * from clientdata where Username =?";
+		String qry = "select * from clientdata where username =?";
 		ResultSet rs;
+		Properties prop = new Properties();
+		InputStream input = null;
 		
-		try {
+		try {			
+			
+			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+			
+			// load a properties file
+		    prop.load(input);
+		    
 			//enter the database credentials
-			sql.setUser("root");
-			sql.setPassword("abcd");
-			sql.setDatabaseName("java_crs_db");
-			sql.setServerName("localhost");
-			sql.setPort(3306);
+		  
+			sql.setUser(prop.getProperty("userName"));
+			sql.setPassword(prop.getProperty("userPwd"));
+			sql.setDatabaseName(prop.getProperty("dbName"));
+			sql.setServerName(prop.getProperty("serverName"));
+			sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
 			
 			//get the connection
 			conn = sql.getConnection();
@@ -118,6 +129,15 @@ public class listServlet extends HttpServlet {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+//		finally {
+//		    if (input != null) {
+//		        try {
+//		            input.close();
+//		        } catch (IOException e) {
+//		            e.printStackTrace();
+//		        }
+//		    }
+//		}
 		
 		
 	}
