@@ -64,7 +64,7 @@ response.sendRedirect("Signin.jsp");
         }
 
         function update() {
-            document.location.href = "update.jsp";
+            document.location.href = "http://localhost:8080/Signup-Signin_Feature/Pass_validation.jsp";
         }
         
 		function Logout() {
