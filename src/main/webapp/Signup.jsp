@@ -52,7 +52,7 @@
         <label for="contact">Contact*</label><br> <input type="text" class="textbox" name="contact" required><br><br>
        
        <input type="submit" class="button" value="Signup">
-           	<input type="button" class="button" value="Reset" onclick="reload()">
+        <input type="button" class="button" value="Reset" onclick="reload()">
   	   <br><br>      
       
 

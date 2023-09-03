@@ -20,6 +20,11 @@ response.sendRedirect("Signin.jsp");
 
         }
     </style>
+    <script>
+		function reload(){
+			document.location.href = "http://localhost:8080/Signup-Signin_Feature/update.jsp";
+		}	
+	</script>
 </head>
 <body>
  <h3>You can update the data by entering new data in the corresponding textbox</h3><br>
@@ -32,6 +37,8 @@ response.sendRedirect("Signin.jsp");
         <label for="contact">Contact</label><br><br> <input type="text" name="contact" class="textbox"><br><br>
 
         <input type="submit" value="Save" style="background-color: rgb(123, 123, 243);">
+        <input type="button" value="Reset" onclick="reload()" style="background-color: rgb(123, 123, 243);">
+        
     </form>
 
 </body>
