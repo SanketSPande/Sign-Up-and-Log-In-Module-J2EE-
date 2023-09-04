@@ -5,7 +5,9 @@ response.setHeader("Pragma","no-cache");//Http 1.0
 response.setDateHeader ("Expires", 0);//Proxies
 
 if(session.getAttribute("uname")==null)
-response.sendRedirect("Signin.jsp");
+	response.sendRedirect("Signin.jsp");
+else if(session.getAttribute("pass")==null )
+	response.sendRedirect("home.jsp");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,6 +19,14 @@ response.sendRedirect("Signin.jsp");
     <style>
         .textbox {
             width: 300px;
+            height: 25px;
+            font-size: larger;
+        }
+        .button {
+            width: 85px;
+            height: 30px;
+            background-color: rgb(183, 183, 241);
+            font-size: larger;
 
         }
     </style>
@@ -27,17 +37,17 @@ response.sendRedirect("Signin.jsp");
 	</script>
 </head>
 <body>
- <h3>You can update the data by entering new data in the corresponding textbox</h3><br>
+ <h1>You can update the data by entering new data in the corresponding textbox</h1><br>
 
-    *<em style="color:blue;">If not to update then leave it blank</em><br><br>
+    <em style="color:blue; font-size: larger;"><h3>*If not to update then leave it blank and hit save</h3></em>
 
     <form action="Update" method="post">
-        <label for="password">Password</label><br><br> <input type="password" name="password" class="textbox"><br><br>
-        <label for="name">Name</label><br><br> <input type="text" name="name" class="textbox"><br><br>
-        <label for="contact">Contact</label><br><br> <input type="text" name="contact" class="textbox"><br><br>
+        <h3><label for="password" style="font-size: larger;">Password</label></h3> <input type="password" name="password" class="textbox"><br><br>
+        <h3><label for="name" style="font-size: larger;">Name</label></h3> <input type="text" name="name" class="textbox"><br><br>
+        <h3><label for="contact" style="font-size: larger;">Contact</label></h3> <input type="text" name="contact" class="textbox"><br><br>
 
-        <input type="submit" value="Save" style="background-color: rgb(123, 123, 243);">
-        <input type="button" value="Reset" onclick="reload()" style="background-color: rgb(123, 123, 243);">
+        <input type="submit" value="Save" class="button">
+        <input type="button" value="Reset" onclick="reload()" class="button">
         
     </form>
 

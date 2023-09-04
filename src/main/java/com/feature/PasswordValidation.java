@@ -37,9 +37,23 @@ public class PasswordValidation extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//Http 1.1
+		response.setHeader("Pragma","no-cache");//Http 1.0
+		response.setDateHeader ("Expires", 0);//Proxies
+
 		HttpSession session = request.getSession();
+		
+		
+		
 		String password = request.getParameter("password");
 		String username = (String) session.getAttribute("uname");
+		session.setAttribute("pass", password);
+		
+		if(session.getAttribute("uname")==null)
+			response.sendRedirect("Signin.jsp");
+		else if(session.getAttribute("pass")==null)
+			response.sendRedirect("home.jsp");
+		
 		//Authentication
 		Connection conn;
 		MysqlDataSource sql= new MysqlDataSource();
@@ -80,7 +94,7 @@ public class PasswordValidation extends HttpServlet {
 		
 			//take the decision									
 			if(pass.equals(password))
-			{	System.out.println("Authenticated");				   
+			{	System.out.println("Authenticated");				
 				response.sendRedirect("update.jsp");
 				
 			}

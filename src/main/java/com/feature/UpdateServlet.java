@@ -30,12 +30,21 @@ public class UpdateServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//Http 1.1
+		response.setHeader("Pragma","no-cache");//Http 1.0
+		response.setDateHeader ("Expires", 0);//Proxies
+		HttpSession session = request.getSession();
+
+		if(session.getAttribute("uname")==null)
+			response.sendRedirect("Signin.jsp");
+		else if(session.getAttribute("pass")==null)
+			response.sendRedirect("home.jsp");
+		
 		
 		//Update the data from database
 		MysqlDataSource sql = new MysqlDataSource();
 		Connection conn = null;
 		PreparedStatement prp = null;
-		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("uname");
 		Properties prop = new Properties();
 		InputStream input = null;
@@ -178,7 +187,7 @@ public class UpdateServlet extends HttpServlet {
 				}
 		
 		}
-		
+		session.setAttribute("pass",null);
 		response.sendRedirect("home.jsp");	
     }
 }
