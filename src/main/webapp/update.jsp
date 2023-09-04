@@ -33,7 +33,7 @@ else if(session.getAttribute("pass")==null )
     <script>
 		function reload(){
 			document.location.href = "http://localhost:8080/Signup-Signin_Feature/update.jsp";
-		}	
+		}			
 	</script>
 </head>
 <body>
@@ -42,9 +42,9 @@ else if(session.getAttribute("pass")==null )
     <em style="color:blue; font-size: larger;"><h3>*If not to update then leave it blank and hit save</h3></em>
 
     <form action="Update" method="post">
-        <h3><label for="password" style="font-size: larger;">Password</label></h3> <input type="password" name="password" class="textbox"><br><br>
-        <h3><label for="name" style="font-size: larger;">Name</label></h3> <input type="text" name="name" class="textbox"><br><br>
-        <h3><label for="contact" style="font-size: larger;">Contact</label></h3> <input type="text" name="contact" class="textbox"><br><br>
+        <h3><label for="password" style="font-size: larger;">Password</label></h3> <input type="password" name="password"  class="textbox"><br><br>
+        <h3><label for="name" style="font-size: larger;">Name</label></h3> <input type="text" name="name"  class="textbox"><br><br>
+        <h3><label for="contact" style="font-size: larger;">Contact</label></h3> <input type="text" name="contact"  class="textbox"><br><br>
 
         <input type="submit" value="Save" class="button">
         <input type="button" value="Reset" onclick="reload()" class="button">

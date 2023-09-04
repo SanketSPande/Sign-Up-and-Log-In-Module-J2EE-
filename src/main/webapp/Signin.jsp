@@ -38,6 +38,24 @@ if(session.getAttribute("uname")!=null)
 		function reload(){
 			document.location.href = "http://localhost:8080/Signup-Signin_Feature/Signin.jsp";
 		}	
+		function validate(){
+			
+			var username = document.getElementById("usrnme");	
+			var password = document.getElementById("pwd");		
+			
+			if(username.value.trim() ==""){
+				alert("No blank values allowed for username");
+				return false;			
+			}
+			if(password.value.trim() ==""){
+				alert("No blank values allowed for password");
+				return false;			
+			}
+			
+			else{
+				true;
+			}
+		}
 	</script>
 
 </head>
@@ -48,13 +66,13 @@ if(session.getAttribute("uname")!=null)
 
     <p style="font-size: larger;">(CARE: Username and password are case sensitive.)</p>
 
-    <form action="Signin" method ="post">
+    <form onsubmit="return validate()" action="Signin" method ="post">
 
         <h3><label for="username" style="font-size: larger;">Username*</label></h3>
-        <input type="text" class="textbox" name="username" required><br>
+        <input type="text" class="textbox" name="username" id="usrnme" required><br>
 
         <h3><label for="password" style="font-size: larger;">Password*</label></h3>
-        <input type="password" class="textbox" name="password" required><br><br>
+        <input type="password" class="textbox" name="password" id="pwd" required><br><br>
 
         <input type="submit" class="button" value="Login">
         
