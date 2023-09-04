@@ -39,31 +39,85 @@ public class SignupDataCapture extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		
-		out.print("<html>");
-		out.print("<script> function message(){ alert('Registration Successful');} </script>");
 		
-		out.print("<body> onload ='message()' </body>");
-		out.print("</html>");
 				
 		//Capture the data entered by the client
 		Integer clientid = null;
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String password = request.getParameter("pwd");
 		String name = request.getParameter("name");
 		String contact = request.getParameter("contact");
-		
-		//set the session attribute
-		session.setAttribute("permission","deny");
+		String usrFrmDB = null;
+		System.out.println("username = "+username);
+		System.out.println("password = "+password);
+		System.out.println("name = "+name);
+		System.out.println("contact = "+contact);
+	
 		
 		//Make a database connection
 		Connection conn;
 		MysqlDataSource sql=new MysqlDataSource();;
 		String qry = "insert into clientdata (ClientId,Username,Password,Name,Contact)  values (?,?,?,?,?)";
 		String qry1 = "select * from clientdata order by clientid desc limit 1";
+		String qry2 = "select username from clientdata where Username=?";
 		PreparedStatement prp;
 		ResultSet rs;
 		Properties prop = new Properties();
 		InputStream input = null;
+		
+		
+		//Checking if the user exist ?
+		try {
+			input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+			
+			// load a properties file
+		    prop.load(input);
+		    
+		  //enter the database credentials
+		    sql.setUser(prop.getProperty("userName"));
+			sql.setPassword(prop.getProperty("userPwd"));
+			sql.setDatabaseName(prop.getProperty("dbName"));
+			sql.setServerName(prop.getProperty("serverName"));
+			sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
+			
+			//get the connection			
+			conn = sql.getConnection();
+			
+			//inject qry in statement type object
+			prp = conn.prepareStatement(qry2);			
+			prp.setString(1,username);
+			
+			//execute the query
+			rs= prp.executeQuery();
+			
+			while (rs.next())
+			{
+				usrFrmDB = rs.getString("username");
+			}
+			System.out.println(usrFrmDB);								
+			conn.close();					
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+		    if (input != null) {
+		        try {
+		            input.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		}
+		
+		System.out.println(usrFrmDB);
+		//take the decision									
+		if(usrFrmDB!=null)
+		{	System.out.println("Username already exist");				   
+			response.sendRedirect("userAlreadyExists.jsp");
+			
+		}
+		else {	
+		
 		
 		//Fetching the id of lastly stored entry
 		try {
@@ -160,12 +214,8 @@ public class SignupDataCapture extends HttpServlet {
 		    }
 		}
 		
-		
-		
-
-		
-		
 		response.sendRedirect("RegSuc.jsp");
+		}
 		
 	}
 

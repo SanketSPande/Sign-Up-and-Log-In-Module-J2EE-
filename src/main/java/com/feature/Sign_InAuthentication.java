@@ -47,15 +47,17 @@ public class Sign_InAuthentication extends HttpServlet {
 					response.sendRedirect("Signin.jsp");
 	    
 		//Authentication
-				Connection conn;
 				MysqlDataSource sql= new MysqlDataSource();
 				String qry = "select * from clientdata where Username=?";
+				String qry1 = "select username from clientdata where Username=?";
 				PreparedStatement prp;
 				ResultSet rs;
 				String pass = null;
+				String usrNme = null;
 				Properties prop = new Properties();
 				InputStream input = null;
 				
+				//Checking if the user exist ?
 				try {
 					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
 					
@@ -70,10 +72,11 @@ public class Sign_InAuthentication extends HttpServlet {
 					sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
 					
 					//get the connection
+					Connection conn;
 					conn = sql.getConnection();
 					
 					//inject qry in statement type object
-					prp = conn.prepareStatement(qry);			
+					prp = conn.prepareStatement(qry1);			
 					prp.setString(1,username);
 					
 					//execute the query
@@ -81,20 +84,15 @@ public class Sign_InAuthentication extends HttpServlet {
 					
 					while (rs.next())
 					{
-						pass = rs.getString("Password");
+						usrNme = rs.getString("username");
 					}
-				
+					System.out.println(usrNme);
 					//take the decision									
-					if(pass.equals(password))
-					{	System.out.println("Authenticated");				   
-					    session.setAttribute("uname",username);
-						response.sendRedirect("home.jsp");
+					if(usrNme=="" || usrNme==null)
+					{	System.out.println("User doesn't exist");				   
+						response.sendRedirect("userNotExist.jsp");
 						
-					}
-					else {
-						System.out.println("Access Denied");
-						response.sendRedirect("WrongCreden.jsp");
-					}
+					}					
 					conn.close();					
 				}catch(Exception e) {
 					e.printStackTrace();
@@ -107,6 +105,64 @@ public class Sign_InAuthentication extends HttpServlet {
 				            e.printStackTrace();
 				        }
 				    }
+				}
+				
+				//Authenticating the existing User against database
+				if(usrNme!=null) {				
+				
+					try {
+						input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
+					
+						// load a properties file
+				    	prop.load(input);
+				    
+				    	//enter the database credentials
+				    	sql.setUser(prop.getProperty("userName"));
+						sql.setPassword(prop.getProperty("userPwd"));
+						sql.setDatabaseName(prop.getProperty("dbName"));
+						sql.setServerName(prop.getProperty("serverName"));
+						sql.setPort(Integer.parseInt(prop.getProperty("serverPort")));
+					
+						//get the connection
+						Connection conn;
+						conn = sql.getConnection();
+					
+						//inject qry in statement type object
+						prp = conn.prepareStatement(qry);			
+						prp.setString(1,username);
+					
+						//execute the query
+						rs= prp.executeQuery();
+					
+						while (rs.next())
+						{
+							pass = rs.getString("Password");
+						}
+				
+						//take the decision									
+						if(pass.equals(password))
+						{	System.out.println("Authenticated");				   
+					    	session.setAttribute("uname",username);
+							response.sendRedirect("home.jsp");
+						
+						}
+						else {
+							System.out.println("Access Denied");
+							response.sendRedirect("WrongCreden.jsp");
+						}
+						conn.close();					
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					finally {
+				    	if (input != null) {
+				        	try {
+				            	input.close();
+				        	}catch (IOException e) {
+				            	e.printStackTrace();
+				        	}
+				    	}
+					}
 				}
 	}
 
