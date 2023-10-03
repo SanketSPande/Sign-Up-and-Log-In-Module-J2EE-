@@ -30,7 +30,13 @@ if(session.getAttribute("uname")!=null)
             height: 30px;
             background-color: rgb(183, 183, 241);
             font-size: larger;
+            cursor: pointer; /* Add cursor pointer */
+            transition: background-color 0.3s, transform 0.3s;
+        }
 
+        .button:hover {
+            background-color: rgb(143, 143, 221); /* Change background color on hover */
+            transform: scale(1.05); /* Scale the button on hover */
         }
     </style>
    

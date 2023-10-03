@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -89,8 +90,13 @@ public class listServlet extends HttpServlet {
 				Name=rs.getString("Name");
 				Contact=rs.getString("Contact");
 			}
-				
-				out.print("<html>");
+			
+			request.setAttribute("Username", Username);
+			request.setAttribute("Password", Password);
+			request.setAttribute("Name", Name);
+			request.setAttribute("Contact", Contact);
+			
+			/*	out.print("<html>");
 				out.print("<body>"
 						+ "<div align ='center' margin =10px style='margin-top:200px;'>"
 						+ "<table align ='center' border =1px  style='font-size:40px;'> "
@@ -122,7 +128,7 @@ public class listServlet extends HttpServlet {
 				
 				out.print("</html>");
 				
-			
+			*/
 				
 			conn.close();
 			
@@ -139,7 +145,9 @@ public class listServlet extends HttpServlet {
 		    }
 		}
 		
-		
+		RequestDispatcher rd = 
+	             request.getRequestDispatcher("yourProfile.jsp");
+		rd.forward(request, response);
 	}
 
 }
