@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.encryption.EncryptDecrypt;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 /**
@@ -89,7 +90,9 @@ public class PasswordValidation extends HttpServlet {
 			
 			while (rs.next())
 			{
-				pass = rs.getString("Password");
+				EncryptDecrypt ed = new EncryptDecrypt();
+				String tmp_pass = rs.getString("Password");
+				pass = ed.decryptPass(tmp_pass);
 			}
 		
 			//take the decision									

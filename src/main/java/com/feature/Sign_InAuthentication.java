@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.encryption.EncryptDecrypt;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 /**
@@ -136,7 +137,11 @@ public class Sign_InAuthentication extends HttpServlet {
 					
 						while (rs.next())
 						{
-							pass = rs.getString("Password");
+							String temp_string = new String();
+							EncryptDecrypt ed = new EncryptDecrypt();
+							temp_string= rs.getString("Password");
+							pass = ed.decryptPass(temp_string);
+							
 						}
 				
 						//take the decision									

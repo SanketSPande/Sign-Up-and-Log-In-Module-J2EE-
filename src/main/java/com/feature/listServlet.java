@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.encryption.EncryptDecrypt;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 
@@ -91,8 +92,11 @@ public class listServlet extends HttpServlet {
 				Contact=rs.getString("Contact");
 			}
 			
+			EncryptDecrypt ed = new EncryptDecrypt();
+			
 			request.setAttribute("Username", Username);
-			request.setAttribute("Password", Password);
+			//decrypting the password
+			request.setAttribute("Password", ed.decryptPass(Password));
 			request.setAttribute("Name", Name);
 			request.setAttribute("Contact", Contact);
 			

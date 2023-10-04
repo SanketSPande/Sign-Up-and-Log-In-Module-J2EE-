@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.encryption.EncryptDecrypt;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 
@@ -58,9 +59,10 @@ public class UpdateServlet extends HttpServlet {
 		String qry3 ="update clientdata set Contact=? where Username =?";
 		
 		
-		
-		//get the connection
-		String password = request.getParameter("password");
+		EncryptDecrypt ed = new EncryptDecrypt();
+		String temp_pass = request.getParameter("password");
+		String password = ed.encryptPass(temp_pass);
+		//get the connection		
 		if(password!="") {
 				try {
 					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");

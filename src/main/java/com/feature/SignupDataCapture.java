@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.encryption.EncryptDecrypt;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 /**
@@ -44,7 +45,12 @@ public class SignupDataCapture extends HttpServlet {
 		//Capture the data entered by the client
 		Integer clientid = null;
 		String username = request.getParameter("username");
-		String password = request.getParameter("pwd");
+		
+		String pass = request.getParameter("pwd");		
+		//Encryption of password
+		EncryptDecrypt ed = new EncryptDecrypt();
+		String password = ed.encryptPass(pass);
+		
 		String name = request.getParameter("name");
 		String contact = request.getParameter("contact");
 		String usrFrmDB = null;
