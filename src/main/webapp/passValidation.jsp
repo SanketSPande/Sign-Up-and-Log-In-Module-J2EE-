@@ -53,7 +53,7 @@ if(session.getAttribute("uname")==null)
             var password = document.getElementById("pass");
 
             if (password.value.trim() === "") {
-                alert("No blank values are allowe for the password.");
+                alert("No blank values are allowed for the password.");
                 return false;
             } else {
                 return true;

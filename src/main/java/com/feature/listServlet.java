@@ -98,41 +98,7 @@ public class listServlet extends HttpServlet {
 			//decrypting the password
 			request.setAttribute("Password", ed.decryptPass(Password));
 			request.setAttribute("Name", Name);
-			request.setAttribute("Contact", Contact);
-			
-			/*	out.print("<html>");
-				out.print("<body>"
-						+ "<div align ='center' margin =10px style='margin-top:200px;'>"
-						+ "<table align ='center' border =1px  style='font-size:40px;'> "
-						+ "<tr>"
-						+ "<td>Username</td>"
-						+ "<td>Password</td>"
-						+ "<td>Name</td>"
-						+ "<td>Contact</td>"
-						+ "</tr>");
-				out.print("<tr>"
-						+ "<td>");
-				out.print(Username);
-				out.print("</td>");
-				out.print("<td>");
-				out.print(Password);
-				out.print("</td>");
-				out.print("<td>");
-				out.print(Name);
-				out.print("</td>");
-				out.print("<td>");
-				out.print(Contact);
-				out.print("</td>"
-						+ "</table>"
-						+ "</div>"
-						+ "<br>"
-						+ "<a href='http://localhost:8080/Signup-Signin_Feature/home.jsp'> <button style=' width: 200px;height: 70px;color: rgb(239, 94, 94);font-size: larger;position: absolute;left: 650px;'>Home</button></a>"
-						+ "</body>"
-						+ "</html>");
-				
-				out.print("</html>");
-				
-			*/
+			request.setAttribute("Contact", Contact);			
 				
 			conn.close();
 			

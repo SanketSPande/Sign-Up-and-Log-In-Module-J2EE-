@@ -42,6 +42,7 @@ public class Sign_InAuthentication extends HttpServlet {
 		//Capture the data entered by the client
 				String username = request.getParameter("username");
 				String password = request.getParameter("password");
+				System.out.println("Password entered by user = "+password);
 				
 		//If the user do not enter any of the two or both of two
 				if(username == null || password == null)
@@ -53,7 +54,7 @@ public class Sign_InAuthentication extends HttpServlet {
 				String qry1 = "select username from clientdata where Username=?";
 				PreparedStatement prp;
 				ResultSet rs;
-				String pass = null;
+				String dcr_pass = null;
 				String usrNme = null;
 				Properties prop = new Properties();
 				InputStream input = null;
@@ -140,12 +141,14 @@ public class Sign_InAuthentication extends HttpServlet {
 							String temp_string = new String();
 							EncryptDecrypt ed = new EncryptDecrypt();
 							temp_string= rs.getString("Password");
-							pass = ed.decryptPass(temp_string);
+							dcr_pass = ed.decryptPass(temp_string);
+							
+							System.out.println("Decrypted Password = "+dcr_pass);
 							
 						}
 				
 						//take the decision									
-						if(pass.equals(password))
+						if(dcr_pass.equals(password))
 						{	System.out.println("Authenticated");				   
 					    	session.setAttribute("uname",username);
 							response.sendRedirect("home.jsp");

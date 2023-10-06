@@ -74,20 +74,20 @@ else if(session.getAttribute("pass")==null )
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center">Update Your Profile</h1>
-    <em style="color: blue; font-size: larger;"><h3>*If not to update then leave it blank and hit save</h3></em>
+    <h1 class="text-center">Update Your Profile <%=request.getAttribute("Name") %></h1>
+    <em style="color: blue; font-size: larger;"><h3>*If not to update any field then leave it blank and hit save (Updating none or partial fields is allowed)</h3></em>
     <form action="Update" method="post">
         <div class="form-group">
             <label for="password" style="font-size: larger;">Password</label>
-            <input type="password" name="password" class="form-control textbox">
+            <input type="password" name="password" class="form-control textbox" placeholder="<%=request.getAttribute("Password") %>" >
         </div>
         <div class="form-group">
             <label for="name" style="font-size: larger;">Name</label>
-            <input type="text" name="name" class="form-control textbox">
+            <input type="text" name="name" class="form-control textbox" placeholder="<%=request.getAttribute("Name") %>">
         </div>
         <div class="form-group">
             <label for="contact" style="font-size: larger;">Contact</label>
-            <input type="text" name="contact" class="form-control textbox">
+            <input type="text" name="contact" class="form-control textbox" placeholder="<%=request.getAttribute("Contact") %>">
         </div>
         <div class="button-container">
             <input type="submit" value="Save" class="btn btn-primary button">
@@ -99,7 +99,7 @@ else if(session.getAttribute("pass")==null )
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
 <script>
     function reload() {
-        document.location.href = "http://localhost:8080/Signup-Signin_Feature/update.jsp";
+        document.location.href = "http://localhost:8080/Signup-Signin_Feature/UserData";
     }
 </script>
 </body>

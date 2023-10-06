@@ -63,7 +63,7 @@ public class UpdateServlet extends HttpServlet {
 		String temp_pass = request.getParameter("password");
 		String password = ed.encryptPass(temp_pass);
 		//get the connection		
-		if(password!="") {
+		if(temp_pass!="") {
 				try {
 					input = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties");
 					

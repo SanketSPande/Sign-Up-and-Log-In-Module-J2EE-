@@ -46,16 +46,17 @@ public class SignupDataCapture extends HttpServlet {
 		Integer clientid = null;
 		String username = request.getParameter("username");
 		
-		String pass = request.getParameter("pwd");		
+		String passFromUsr = request.getParameter("pwd");		
 		//Encryption of password
 		EncryptDecrypt ed = new EncryptDecrypt();
-		String password = ed.encryptPass(pass);
+		String encrPassword = ed.encryptPass(passFromUsr);
 		
 		String name = request.getParameter("name");
 		String contact = request.getParameter("contact");
 		String usrFrmDB = null;
 		System.out.println("username = "+username);
-		System.out.println("password = "+password);
+		System.out.println("passFromUsr = "+passFromUsr);
+		System.out.println("encrPassword = "+encrPassword);
 		System.out.println("name = "+name);
 		System.out.println("contact = "+contact);
 	
@@ -150,7 +151,10 @@ public class SignupDataCapture extends HttpServlet {
 			while (rs.next())
 			{
 				clientid = rs.getInt(1);
+				System.out.println("client iD = "+clientid);
 			}
+			//System.out.println("client iD = "+clientid);
+			
 			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -185,13 +189,14 @@ public class SignupDataCapture extends HttpServlet {
 			//inject qry in statement type object
 			prp = conn.prepareStatement(qry);
 			
-			if(clientid==1) {
+			
+			if(clientid==null) {
 			prp.setInt(1,1);
 			}else {
 				prp.setInt(1,clientid+1);
 			}
 			prp.setString(2,username);
-			prp.setString(3,password);
+			prp.setString(3,encrPassword);
 			prp.setString(4,name);			
 			prp.setLong(5,Long.parseLong(contact));
 			
